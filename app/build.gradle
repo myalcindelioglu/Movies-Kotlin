@@ -1,0 +1,123 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 27
+    flavorDimensions "default"
+    defaultConfig {
+        applicationId "com.myd.movies"
+        minSdkVersion 17
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+            versionNameSuffix "-DEBUG"
+            zipAlignEnabled false
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+
+        prod{
+            buildConfigField "String", "API_KEY", "\"aa415ab8634b9afc9233b1114ce8bfe8\""
+            buildConfigField "String", "TMDB_SECURE_BASE_URL", "\"https://api.themoviedb.org/3/\""
+            buildConfigField "String", "TMDB_SECURE_IMAGE_URL", "\"https://image.tmdb.org/t/p/\""
+        }
+
+        stub {
+            buildConfigField "String", "API_KEY", "\"aa415ab8634b9afc9233b1114ce8bfe8\""
+            buildConfigField "String", "TMDB_SECURE_BASE_URL", "\"https://api.themoviedb.org/3/\""
+            buildConfigField "String", "TMDB_SECURE_IMAGE_URL", "\"https://image.tmdb.org/t/p/\""
+        }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    sourceSets {
+        test {
+            java.srcDirs += "$projectDir/src/testShared"
+        }
+
+        androidTest {
+            java.srcDirs += "$projectDir/src/testShared"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+
+    //google
+    implementation 'com.google.code.gson:gson:2.8.2'
+
+    //okHttp
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+
+    //rx
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.8'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    //dagger
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
+    implementation 'com.google.dagger:dagger-android-support:2.13'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.13'
+    kapt "com.google.dagger:dagger-android-processor:2.13"
+    kapt "com.google.dagger:dagger-compiler:2.13"
+
+    // architecture components
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation "android.arch.lifecycle:runtime:1.1.1"
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    implementation "android.arch.paging:runtime:1.0.1"
+    kapt "android.arch.lifecycle:compiler:1.1.1"
+    kapt "android.arch.persistence.room:compiler:1.1.1"
+
+    //Android Test
+    androidTestImplementation 'junit:junit:4.12'
+    androidTestImplementation 'org.mockito:mockito-core:2.18.0'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation "com.android.support.test:rules:1.0.2"
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
+
+    //Test
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.18.0'
+    testImplementation "android.arch.core:core-testing:1.1.1"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
+}
